@@ -69,7 +69,7 @@ on:
         default: "960"
 
 env:
-  TZ: Australia/Melbourne
+  TZ: America/New_York
   IMAGEBUILDER_SH: router-config/openwrt-imagebuilder/imagebuilder.sh
 
 jobs:
@@ -114,10 +114,10 @@ jobs:
           auto_kernel: ${{ github.event.inputs.auto_kernel }}
           openwrt_size: ${{ github.event.inputs.openwrt_size }}
 
-          name: Upload OpenWrt Firmware to Release
-          uses: ncipollo/release-action@main
-          if: env.PACKAGED_STATUS == 'success' && !cancelled()
-            with:
+      - name: Upload OpenWrt Firmware to Release
+        uses: ncipollo/release-action@main
+        if: env.PACKAGED_STATUS == 'success' && !cancelled()
+        with:
           tag: OpenWrt_Aml_imagebuilder_${{ env.RELEASES_BRANCH }}_${{ env.PACKAGED_OUTPUTDATE }}
           artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
           allowUpdates: true
