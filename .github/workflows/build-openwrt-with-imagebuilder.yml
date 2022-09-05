@@ -69,7 +69,7 @@ on:
         default: "960"
 
 env:
-  TZ: America/New_York
+  TZ: Australia/Melbourne
   IMAGEBUILDER_SH: router-config/openwrt-imagebuilder/imagebuilder.sh
 
 jobs:
@@ -121,7 +121,7 @@ jobs:
           tag: OpenWrt_Aml_imagebuilder_${{ env.RELEASES_BRANCH }}_${{ env.PACKAGED_OUTPUTDATE }}
           artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
           allowUpdates: true
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.WORKFLOW_TOKEN }}
           body: |
             This is OpenWrt firmware for Amlogic s9xxx tv box
             * Firmware information
