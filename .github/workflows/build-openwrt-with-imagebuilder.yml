@@ -114,7 +114,7 @@ jobs:
           auto_kernel: ${{ github.event.inputs.auto_kernel }}
           openwrt_size: ${{ github.event.inputs.openwrt_size }}
 
-      # name: Upload OpenWrt Firmware to Release
+          name: Upload OpenWrt Firmware to Release
           uses: ncipollo/release-action@main
           if: env.PACKAGED_STATUS == 'success' && !cancelled()
             with:
