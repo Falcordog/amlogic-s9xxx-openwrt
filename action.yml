@@ -30,7 +30,14 @@ inputs:
     description: "Set the rootfs size(Unit: MiB)."
     required: false
     default: "960"
-
+  openwrt_fstype:
+    description: "Select rootfs type."
+    required: false
+    default: "ext4"
+    type: choice
+    options:
+      - ext4
+      - btrfs
 runs:
   using: "composite"
   steps:
