@@ -67,7 +67,14 @@ on:
         description: "Set the rootfs size(Unit: MiB)."
         required: false
         default: "960"
-
+      openwrt_fstype:
+        description: "Select rootfs type."
+        required: false
+        default: "ext4"
+        type: choice
+        options:
+          - ext4
+          - btrfs
 env:
   TZ: America/New_York
   IMAGEBUILDER_SH: router-config/openwrt-imagebuilder/imagebuilder.sh
