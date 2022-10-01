@@ -103,6 +103,7 @@ custom_packages() {
 
     # Download luci-app-amlogic
     amlogic_api="https://api.github.com/repos/ophub/luci-app-amlogic/releases"
+	script_repo="https://github.com/Falcordog/luci-app-amlogic/tree/main/luci-app-amlogic/root/usr/sbin"
     #
     amlogic_file="luci-app-amlogic"
     amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_name}.*.ipk" | head -n 1)"
