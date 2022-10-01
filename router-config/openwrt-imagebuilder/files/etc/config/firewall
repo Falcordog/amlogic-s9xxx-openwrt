@@ -1,0 +1,128 @@
+
+config defaults
+	option input 'ACCEPT'
+	option synflood_protect '1'
+	option flow_offloading '1'
+	option forward 'ACCEPT'
+	option output 'ACCEPT'
+
+config include
+	option path '/etc/firewall.user'
+
+config rule
+	option name 'Allow-DHCP-Renew'
+	option proto 'udp'
+	option target 'ACCEPT'
+	option dest 'lan'
+	option src 'lan'
+	option src_port '67-68'
+	option dest_port '67-68'
+
+config rule
+	option name 'Allow-Ping'
+	option proto 'icmp'
+	option family 'ipv4'
+	option target 'ACCEPT'
+	list icmp_type 'echo-request'
+	option dest 'lan'
+	option src 'lan'
+
+config rule
+	option name 'Allow-IGMP'
+	option proto 'igmp'
+	option family 'ipv4'
+	option target 'ACCEPT'
+	option dest 'lan'
+	option src 'lan'
+
+config rule
+	option name 'Allow-MLD'
+	option proto 'icmp'
+	option target 'ACCEPT'
+	option dest 'lan'
+	option family 'ipv4'
+	option src 'lan'
+
+config zone
+	option name 'lan'
+	option input 'ACCEPT'
+	option forward 'ACCEPT'
+	option family 'ipv4'
+	option output 'ACCEPT'
+	list device 'br-lan'
+	list device 'eth0'
+	list network 'lan'
+
+config forwarding
+	option src 'lan'
+	option dest 'docker'
+
+config forwarding
+	option src 'docker'
+	option dest 'lan'
+
+config zone 'docker'
+	option input 'ACCEPT'
+	option output 'ACCEPT'
+	option forward 'ACCEPT'
+	option name 'docker'
+	list network 'docker'
+
+config include 'miniupnpd'
+	option type 'script'
+	option path '/usr/share/miniupnpd/firewall.include'
+	option family 'any'
+	option reload '1'
+
+config rule
+	option name 'Bind AdGuardHome'
+	option family 'ipv4'
+	list proto 'tcp'
+	option src 'lan'
+	list src_ip '192.168.1.2'
+	option src_port '4010'
+	list dest_ip '192.168.1.2'
+	option dest_port '4010'
+	option target 'ACCEPT'
+	option enabled '0'
+
+config rule
+	option name 'Allow Wireguard'
+	option src '*'
+	option src_port '51820'
+	option dest '*'
+	option dest_port '51820'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow DNS'
+	list proto 'tcp'
+	option src '*'
+	option src_port '53 5555 5553 1745'
+	option dest '*'
+	option dest_port '53 5555 5553 1745'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Route Gluetun DNS to 1745'
+	option src 'docker'
+	list src_ip '175.10.10.1'
+	list src_ip '175.10.10.2'
+	option src_port '53'
+	option dest_port '1745'
+	option target 'ACCEPT'
+	option enabled '0'
+
+config rule
+	option name 'gluetun socks5'
+	option src '*'
+	option src_port '1080'
+	option dest '*'
+	option dest_port '1080'
+	option target 'ACCEPT'
+
+config include 'AdGuardHome'
+	option type 'script'
+	option path '/usr/share/AdGuardHome/firewall.start'
+	option reload '1'
+

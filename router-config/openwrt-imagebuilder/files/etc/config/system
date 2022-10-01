@@ -7,7 +7,7 @@ config system
 	option log_proto 'udp'
 	option conloglevel '8'
 	option cronloglevel '5'
-	option hostname 's905xWRT'
+	option hostname 'AmlogicWRT'
 	option log_size '256'
 	option log_file '/zlogs/system.log'
 
