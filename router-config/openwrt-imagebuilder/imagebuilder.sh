@@ -79,7 +79,7 @@ adjust_settings() {
         # Root filesystem archives
         sed -i "s|CONFIG_TARGET_ROOTFS_CPIOGZ=.*|# CONFIG_TARGET_ROOTFS_CPIOGZ is not set|g" .config
         # Root filesystem images
-        sed -i "s|CONFIG_TARGET_ROOTFS_EXT4FS=.*|CONFIG_TARGET_ROOTFS_EXT4FS=y" .config
+        sed -i "s|CONFIG_TARGET_ROOTFS_EXT4FS=.*|# CONFIG_TARGET_ROOTFS_EXT4FS is not set|g" .config
         sed -i "s|CONFIG_TARGET_ROOTFS_SQUASHFS=.*|# CONFIG_TARGET_ROOTFS_SQUASHFS is not set|g" .config
         sed -i "s|CONFIG_TARGET_IMAGES_GZIP=.*|# CONFIG_TARGET_IMAGES_GZIP is not set|g" .config
     }
@@ -103,7 +103,6 @@ custom_packages() {
 
     # Download luci-app-amlogic
     amlogic_api="https://api.github.com/repos/ophub/luci-app-amlogic/releases"
-	script_repo="https://github.com/Falcordog/luci-app-amlogic/tree/main/luci-app-amlogic/root/usr/sbin"
     #
     amlogic_file="luci-app-amlogic"
     amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_name}.*.ipk" | head -n 1)"
@@ -177,7 +176,7 @@ rebuild_firmware() {
         luci-lib-docker luci-lib-ip luci-lib-ipkg luci-lib-jsonc luci-lib-nixio  \
         luci-mod-admin-full luci-mod-network luci-mod-status luci-mod-system  \
         luci-proto-3g luci-proto-bonding luci-proto-ipip luci-proto-ipv6 luci-proto-ncm  \
-        luci-proto-openconnect luci-proto-ppp luci-proto-qmi  \
+        luci-proto-openconnect luci-proto-ppp luci-proto-qmi luci-proto-relay  \
         \
         luci-app-amlogic luci-i18n-amlogic-zh-cn \
         \
