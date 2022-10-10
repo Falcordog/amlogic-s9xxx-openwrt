@@ -1,15 +1,14 @@
 
 config system
 	option ttylogin '0'
+	option log_size '256'
 	option urandom_seed '0'
+	option hostname 'HK1-WRT'
 	option zonename 'Australia/Melbourne'
 	option timezone 'AEST-10AEDT,M10.1.0,M4.1.0/3'
 	option log_proto 'udp'
 	option conloglevel '8'
 	option cronloglevel '5'
-	option hostname 'AmlogicWRT'
-	option log_size '256'
-	option log_file '/zlogs/system.log'
 
 config timeserver 'ntp'
 	option use_dhcp '0'

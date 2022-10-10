@@ -8,80 +8,20 @@ config interface 'loopback'
 config globals 'globals'
 	option packet_steering '1'
 
-config interface 'lan'
-	option proto 'dhcp'
-	option force_link '1'
-	option delegate '0'
-	option device 'br-lan'
-
 config device
-	option name 'eth0'
-	option acceptlocal '1'
-	option ipv6 '0'
-	option multicast '0'
-	option promisc '1'
-
-config interface 'libernet'
-	option proto 'none'
-	option device 'tun1'
-	option auto '0'
-
-config device
-	option type 'veth'
-	option name 'tun1'
-	option ipv6 '0'
-
-config device
-	option name 'br-9c46ec928349'
-	option type 'bridge'
-	list ports 'vethdfc99c0'
-	list ports 'vetheb7cc6f'
-	option bridge_empty '1'
-	option multicast '0'
-	option stp '1'
-	option igmp_snooping '1'
-	option acceptlocal '1'
-
-config device
-	option name 'br-eb206d7e3715'
-	option type 'bridge'
-	list ports 'veth10839c8'
-	option bridge_empty '1'
-	option multicast '0'
-	option stp '1'
-	option igmp_snooping '1'
-	option acceptlocal '1'
-
-config device
-	option type 'bridge'
 	option name 'br-lan'
-	option bridge_empty '1'
-	option stp '1'
-	option igmp_snooping '1'
-	option acceptlocal '1'
-	option ipv6 '0'
+	option type 'bridge'
 	list ports 'eth0'
-	option promisc '1'
+
+config interface 'lan'
+	option device 'br-lan'
+	option proto 'dhcp'
 
 config interface 'docker'
 	option device 'docker0'
 	option proto 'none'
-	option force_link '1'
+	option auto '0'
 
 config device
 	option type 'bridge'
 	option name 'docker0'
-	list ports 'vetha47d15f'
-	list ports 'vethf467816'
-	option stp '1'
-	option igmp_snooping '1'
-	option acceptlocal '1'
-
-config device
-	option name 'br-d5782f21ed96'
-	option type 'bridge'
-	option stp '1'
-	option multicast_querier '1'
-	option promisc '1'
-	option acceptlocal '1'
-

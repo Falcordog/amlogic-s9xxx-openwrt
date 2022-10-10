@@ -79,7 +79,7 @@ adjust_settings() {
         # Root filesystem archives
         sed -i "s|CONFIG_TARGET_ROOTFS_CPIOGZ=.*|# CONFIG_TARGET_ROOTFS_CPIOGZ is not set|g" .config
         # Root filesystem images
-        sed -i "s|CONFIG_TARGET_ROOTFS_EXT4FS=.*|# CONFIG_TARGET_ROOTFS_EXT4FS is not set|g" .config
+        sed -i "s|CONFIG_TARGET_ROOTFS_EXT4FS=.*|CONFIG_TARGET_ROOTFS_EXT4FS=y" .config
         sed -i "s|CONFIG_TARGET_ROOTFS_SQUASHFS=.*|# CONFIG_TARGET_ROOTFS_SQUASHFS is not set|g" .config
         sed -i "s|CONFIG_TARGET_IMAGES_GZIP=.*|# CONFIG_TARGET_IMAGES_GZIP is not set|g" .config
     }
@@ -103,6 +103,7 @@ custom_packages() {
 
     # Download luci-app-amlogic
     amlogic_api="https://api.github.com/repos/ophub/luci-app-amlogic/releases"
+	script_repo="https://github.com/Falcordog/luci-app-amlogic/tree/main/luci-app-amlogic/root/usr/sbin"
     #
     amlogic_file="luci-app-amlogic"
     amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_name}.*.ipk" | head -n 1)"
@@ -158,25 +159,19 @@ rebuild_firmware() {
     # Selecting default packages, lib, theme, app and i18n, etc.
     # sorting by https://build.moz.one
     my_packages="\
-        acpid attr base-files bash bc bind-server blkid block-mount blockd bsdtar  \
-        btrfs-progs busybox bzip2 cgi-io chattr comgt comgt-ncm containerd coremark  \
-        coreutils coreutils-base64 coreutils-nohup coreutils-truncate curl docker  \
-        docker-compose dockerd dosfstools dumpe2fs e2freefrag e2fsprogs exfat-mkfs  \
-        f2fs-tools f2fsck fdisk gawk getopt gzip hostapd-common iconv iw iwinfo jq jshn  \
-        kmod-brcmfmac kmod-brcmutil kmod-cfg80211 kmod-mac80211 libjson-script  \
-        liblucihttp liblucihttp-lua libnetwork losetup lsattr lsblk lscpu mkf2fs  \
-        mount-utils openssl-util parted perl-http-date perlbase-file perlbase-getopt  \
-        perlbase-time perlbase-unicode perlbase-utf8 pigz ppp ppp-mod-pppoe  \
-        proto-bonding pv rename resize2fs runc subversion-client subversion-libs tar  \
-        tini ttyd tune2fs uclient-fetch uhttpd uhttpd-mod-ubus unzip uqmi usb-modeswitch  \
-        uuidgen wget-ssl whereis which wpa-cli wpad-basic wwan xfs-fsck xfs-mkfs xz  \
-        xz-utils ziptool zoneinfo-asia zoneinfo-core zstd  \
+        bash bind-dnssec bind-libs blkid block-mount blockd bmx7-tun busybox ca-bundle ca-certificates cgi-io collectd-mod-fscache curl dnsmasq \ dropbear e2fsprogs exfat-fsck exfat-mkfs f2fs-tools fdisk findfs fritz-tffs-nand fstools gawk hostapd-common htop hwinfo ip-full \
+		iperf3 ipip iptaccount iptgeoip irqbalance kernel kmod-block2mtd kmod-fs-autofs4 kmod-fs-exfat kmod-fs-ext4 kmod-fs-f2fs kmod-fs-fscache \ kmod-fs-squashfs kmod-gpio-button-hotplug kmod-ipip kmod-leds-gpio kmod-mmc kmod-mmc-spi kmod-mtd-rw kmod-regmap-spi kmod-sched-flower \ kmod-sched-mqprio kmod-scsi-core kmod-spi-dev kmod-usb-ledtrig-usbport kmod-usb-ohci kmod-usb-ohci-pci kmod-usb-storage \ kmod-usb-storage-extras kmod-usb-storage-uas kmod-usb-test kmod-usb-uhci kmod-usb2-pci kmod-usb3 knot-keymgr knot-libs libc libcurl \ libgpg-error libmagic libnatpmp libopenssl libpci libpjnath libsocks libustream-wolfssl libuwsc-mbedtls logd lsblk lua-ev mdadm mmc-utils \ mount-utils mtd nand-utils netifd nfs-kernel-server-utils nfs-utils odhcp6c odhcpd-ipv6only opkg parted pciutils procd procd-seccomp \  procd-ujail smartd smartmontools smartmontools-drivedb squashfs-tools-mksquashfs sudo swap-utils tc-mod u2pnpd ubus ubusd uci \
+		uclient-fetch uhttpd uhttpd-mod-ubus umdns unzip urandom-seed urngd usb-modeswitch usbutils uuidgen zlib acpid attr base-files \
+		bind-server bsdtar btrfs-progs bzip2 chattr comgt comgt-ncm containerd coremark coreutils coreutils-base64 coreutils-nohup \ coreutils-truncate docker docker-compose dockerd dosfstools dumpe2fs e2freefrag f2fsck getopt gzip iconv iw iwinfo jq jshn \
+		kmod-brcmfmac kmod-brcmutil kmod-cfg80211 kmod-mac80211 libjson-script liblucihttp liblucihttp-lua libnetwork losetup \
+		lsattr lscpu mkf2fs openssl-util perl-http-date perlbase-file perlbase-getopt perlbase-time perlbase-unicode perlbase utf8 pigz ppp \ ppp-mod-pppoe proto-bonding pv rename resize2fs runc subversion-client subversion-libs tar tini ttyd tune2fs uqmi wget-ssl \ 
+		whereis which wpa-cli wpad-basic wwan xfs-fsck xfs-mkfs xz xz-utils ziptool zoneinfo-asia zoneinfo-core zstd \
         \
-        luci luci-base luci-compat luci-i18n-base-en luci-i18n-base-zh-cn luci-lib-base  \
+        luci luci-base luci-compat luci-i18n-base-en luci-theme-bootstrap  \
         luci-lib-docker luci-lib-ip luci-lib-ipkg luci-lib-jsonc luci-lib-nixio  \
         luci-mod-admin-full luci-mod-network luci-mod-status luci-mod-system  \
         luci-proto-3g luci-proto-bonding luci-proto-ipip luci-proto-ipv6 luci-proto-ncm  \
-        luci-proto-openconnect luci-proto-ppp luci-proto-qmi luci-proto-relay  \
+        luci-proto-openconnect luci-proto-ppp luci-proto-qmi  \
         \
         luci-app-amlogic luci-i18n-amlogic-zh-cn \
         \
