@@ -57,7 +57,7 @@ download_imagebuilder() {
     echo -e "${STEPS} Start downloading OpenWrt files..."
     # Downloading imagebuilder files
     # Download example: https://downloads.openwrt.org/releases/21.02.3/targets/armvirt/64/openwrt-imagebuilder-21.02.3-armvirt-64.Linux-x86_64.tar.xz
-    download_file="https://downloads.openwrt.org/releases/22.03.2/targets/armvirt/64/openwrt-imagebuilder-22.03.2-armvirt-64.Linux-x86_64.tar.xz"
+    download_file="https://downloads.openwrt.org/releases/${rebuild_branch}/targets/armvirt/64/openwrt-imagebuilder-${rebuild_branch}-armvirt-64.Linux-x86_64.tar.xz"
     wget -q ${download_file}
     [[ "${?}" -eq "0" ]] || error_msg "Wget download failed: [ ${download_file} ]"
 
@@ -169,7 +169,7 @@ rebuild_firmware() {
         perlbase-time perlbase-unicode perlbase-utf8 pigz smartmontools smartd smartmontools-drivedb  \
         proto-bonding pv rename resize2fs runc subversion-client subversion-libs tar  \
         tini ttyd kmod-fs-autofs4 uclient-fetch uhttpd uhttpd-mod-ubus unzip uqmi usb-modeswitch  \
-        uuidgen wget-ssl whereis which wpa-cli wpad wpad-wolfssl wwan xfs-fsck xfs-mkfs xz  \
+        uuidgen wget-ssl whereis which wpa-cli wpad-wolfssl wwan xfs-fsck xfs-mkfs xz  \
         xz-utils ziptool zoneinfo-australia-nz zoneinfo-core zstd  \
         \
         luci luci-base luci-compat luci-i18n-base-en luci-i18n-base-zh-cn luci-lib-base  \
