@@ -1,0 +1,24 @@
+
+config system
+	option ttylogin '0'
+	option log_size '256'
+	option urandom_seed '0'
+	option zonename 'Australia/Melbourne'
+	option timezone 'AEST-10AEDT,M10.1.0,M4.1.0/3'
+	option log_proto 'udp'
+	option conloglevel '8'
+	option cronloglevel '5'
+	option hostname 's905x-WRT'
+
+config timeserver 'ntp'
+	option use_dhcp '0'
+	list server '103.76.40.123'
+	list server '162.159.200.1'
+	list server '27.124.125.251'
+	list server '170.187.240.5'
+	list server '103.126.53.123'
+	list server '220.158.215.20'
+	list server '129.250.35.250'
+	list server '203.57.51.100'
+	list server '159.196.3.239'
+
