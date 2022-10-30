@@ -57,7 +57,7 @@ download_imagebuilder() {
     echo -e "${STEPS} Start downloading OpenWrt files..."
     # Downloading imagebuilder files
     # Download example: https://downloads.openwrt.org/releases/21.02.3/targets/armvirt/64/openwrt-imagebuilder-21.02.3-armvirt-64.Linux-x86_64.tar.xz
-    download_file="https://downloads.openwrt.org/releases/${rebuild_branch}/targets/armvirt/64/openwrt-imagebuilder-${rebuild_branch}-armvirt-64.Linux-x86_64.tar.xz"
+    download_file="https://downloads.openwrt.org/releases/22.03.2/targets/armvirt/64/openwrt-imagebuilder-22.03.2-armvirt-64.Linux-x86_64.tar.xz"
     wget -q ${download_file}
     [[ "${?}" -eq "0" ]] || error_msg "Wget download failed: [ ${download_file} ]"
 
